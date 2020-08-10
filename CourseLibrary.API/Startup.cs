@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CourseLibrary.API.Contexts;
 using CourseLibrary.API.Services;
 using Microsoft.AspNetCore.Builder;
@@ -19,6 +20,7 @@ namespace CourseLibrary.API
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
             services.AddDbContext<CoursesContext>(options =>
                 options.UseSqlServer(
                 @"Server=localhost,1433;Database=CoursesDB;Persist Security Info=False;User ID=sa;Password=HLockward2018;Trusted_Connection=False;"
@@ -26,6 +28,7 @@ namespace CourseLibrary.API
             );
 
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         }
 
@@ -41,10 +44,7 @@ namespace CourseLibrary.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }
