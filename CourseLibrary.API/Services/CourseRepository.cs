@@ -26,6 +26,22 @@ namespace CourseLibrary.API.Services
             return await _contexts.Courses.Include(b => b.Author).ToListAsync();
         }
 
+        public void AddCourse(Course course)
+        {
+            if(course == null)
+            {
+                throw new ArgumentNullException(nameof(course));
+            }
+
+            _contexts.Add(course);
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            // return 1 if 1 or more entities were changed
+            return (await _contexts.SaveChangesAsync() > 0);
+        }
+
         public void Dispose()
         {
             Dispose(true);
