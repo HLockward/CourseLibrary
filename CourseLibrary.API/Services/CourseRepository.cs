@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CourseLibrary.API.Contexts;
 using CourseLibrary.API.Entities;
@@ -18,17 +19,22 @@ namespace CourseLibrary.API.Services
 
         public async Task<Course> GetCourseAsync(Guid id)
         {
-            return await _contexts.Courses.Include(b => b.Author).FirstOrDefaultAsync(b => b.Id == id);
+            return await _contexts.Courses.Include(c => c.Author).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
-            return await _contexts.Courses.Include(b => b.Author).ToListAsync();
+            return await _contexts.Courses.Include(c => c.Author).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Entities.Course>> GetCoursesAsync(IEnumerable<Guid> courseIds)
+        {
+            return await _contexts.Courses.Where(c => courseIds.Contains(c.Id)).Include(c => c.Author).ToListAsync();
         }
 
         public void AddCourse(Course course)
         {
-            if(course == null)
+            if (course == null)
             {
                 throw new ArgumentNullException(nameof(course));
             }
@@ -52,7 +58,7 @@ namespace CourseLibrary.API.Services
         {
             if (disposing)
             {
-                if(_contexts != null)
+                if (_contexts != null)
                 {
                     _contexts.Dispose();
                     _contexts = null;

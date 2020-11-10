@@ -8,7 +8,6 @@
     <Folder Include="Entities\" />
     <Folder Include="Contexts\" />
     <Folder Include="Services\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Filters\" />
     <Folder Include="Profiles\" />
   </ItemGroup>

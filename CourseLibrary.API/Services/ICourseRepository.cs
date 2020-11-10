@@ -12,6 +12,8 @@ namespace CourseLibrary.API.Services
 
         Task<Course> GetCourseAsync(Guid id);
 
+        Task<IEnumerable<Entities.Course>> GetCoursesAsync(IEnumerable<Guid> courseIds);
+
         void AddCourse(Course course);
 
         Task<bool> SaveChangesAsync();
